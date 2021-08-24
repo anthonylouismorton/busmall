@@ -11,77 +11,150 @@ const productsELem = document.getElementById('products');
 let picks = 0;
 let firstProduct = null;
 let secondProduct = null;
-let rightProduct = null;
+let thirdProduct = null;
 
 function Product(name, image){
-  this.name;
-  this.image;
+  this.name = name;
+  this.image = image;
   this.votes = 0;
   this.appearances = 0;
 }
 
 Product.productArray = [];
 
-Product.prototype.renderProducts = function(img,h2){
+Product.prototype.renderProduct = function(img,h2){
   img.src = this.image;
   h2.textContent = this.name;
-  this.label = getElementById('')
   this.appearances++;
 }
 
 function getRandomProducts(){
-  let firstPosition = Math.floor(Math.random()*Product.productArray.length);
-  firstProduct = firstPosition;
+  // const uniqueProducts = [firstProduct, secondProduct, thirdProduct];
+  // while(uniqueProducts.includes(uniqueProducts[0])){
+  //   let firstPosition = Math.floor(Math.random()*Product.productArray.length);
+  //   firstProduct = Product.productArray[firstPosition];
+  // }
+  // uniqueProducts.push[firstProduct];
 
-  let secondPosition;
-  let thirdPosition;
-  while(secondPosition === undefined || secondPosition === firstPosition || secondPosition === thirdPosition)
-  {
-    secondProduct = Math.floor(Math.random()*Product.productArray.length);
-  }
-  while(thirdPosition === undefined || thirdPosition === firstPosition || thirdPosition === secondPosition)
-  {
-    thirdProduct = Math.floor(Math.random()*Product.productArray.length);
-  }
-  renderProducts(firstProduct,secondProduct,thirdProduct);
+  // while(uniqueProducts.includes(secondProduct)){
+  //   let secondPosition = Math.floor(Math.random()*Product.productArray.length);
+  //   secondProduct = Product.productArray[secondPosition];
+  // }
+  // uniqueProducts.push[secondProduct];
+
+  // while(uniqueProducts.includes(thirdProduct)){
+  //   let thirdPosition = Math.floor(Math.random()*Product.productArray.length);
+  //   thirdProduct = Product.productArray[thirdPosition];
+  // }
+  // uniqueProducts.push[thirdProduct];
+
+  // let firstPosition = Math.floor(Math.random()*Product.productArray.length);
+  // let secondPosition;
+  // let thirdPosition;
+  // firstProduct = Product.productArray[firstPosition];
+
+  // while(secondPosition === undefined || secondPosition === firstPosition)
+  // {
+  //   secondPosition = Math.floor(Math.random()*Product.productArray.length);
+  // }
+  // secondProduct =  Product.productArray[secondPosition];
+
+  // while(thirdPosition === undefined || thirdPosition === firstPosition || thirdPosition === secondPosition)
+  // {
+  //   thirdPosition = Math.floor(Math.random()*Product.productArray.length);
+  // }
+  // thirdProduct =  Product.productArray[thirdPosition];
+
+  renderProducts();
+}
+function renderProducts(){
+  firstProduct.renderProduct(firstProductElem, firstProductLabelElem);
+  secondProduct.renderProduct(secondProductElem, secondProductLabelElem);
+  thirdProduct.renderProduct(thirdProductElem, thirdProductLabelElem);
 }
 
-function createProduct(name, image){
-  let product = new Product(name, image);
+function createProduct(aName, image){
+  let product = new Product(aName, image);
   Product.productArray.push(product);
 }
 
-function clickHanlder(event){
+function clickHandler(event){
+  console.log(event.target)
   if(event.target === firstProductElem ||event.target === secondProductElem ||event.target === thirdProductElem){
-  picks++
-  if(event.target === firstProductElem){
-    firstProduct.votes++;
+  picks++;
+    if(event.target === firstProductElem){
+      firstProduct.votes++;
+    }
+    else if(event.target === secondProductElem){
+      secondProduct.votes++;
+    }
+    else{
+      thirdProduct.votes++;
+    }
+    if(picks > 24){
+      productsELem.removeEventListener('click', clickHandler);
+      renderVotes();
+      createChart();
+    }
+    getRandomProducts();
   }
-  else if(event.target === secondProductElem){
-    secondProduct.votes++;
-  }
-  else{
-  thirdProduct.votes++;
-  }
-  if(picks >= 25){
-    productsELem.removeEventListener('click', clickHanlder);
-  }
-  //renderVotes();
-  //getRandomProducts();
 }
-}
+// function createChart(){
+//   const productData = [];
+//   const dataLabels = [];
+
+//   for(let product of Product.productArray){
+//     productData.push(product.votes)
+//     dataLabels.push(product.name)
+//   }
+// }
 
 function renderVotes(){
   const ulElem = document.getElementById('productTotals');
   ulElem.innerHTML = '';
   for(let product of Product.productArray){
     const liElem = document.createElement('li');
-    liElem.textContent = `${Product.name}: ${Product.votes}`;
+    liElem.textContent = `Product: ${product.name}, Votes: ${product.votes}, Appearances: ${product.appearances}`;
     ulElem.appendChild(liElem);
   }
 }
+// var ctx = document.getElementById('productGraph').getContext('2d');
+// var myChart = new Chart(ctx, {
+//     type: 'bar',
+//     data: {
+//         labels: ['red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+//         datasets: [{
+//             label: '# of Votes',
+//             data: [12, 19, 3, 5, 2, 3],
+//             backgroundColor: [
+//                 'rgba(255, 99, 132, 0.2)',
+//                 'rgba(54, 162, 235, 0.2)',
+//                 'rgba(255, 206, 86, 0.2)',
+//                 'rgba(75, 192, 192, 0.2)',
+//                 'rgba(153, 102, 255, 0.2)',
+//                 'rgba(255, 159, 64, 0.2)'
+//             ],
+//             borderColor: [
+//                 'rgba(255, 99, 132, 1)',
+//                 'rgba(54, 162, 235, 1)',
+//                 'rgba(255, 206, 86, 1)',
+//                 'rgba(75, 192, 192, 1)',
+//                 'rgba(153, 102, 255, 1)',
+//                 'rgba(255, 159, 64, 1)'
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+//     options: {
+//         scales: {
+//             y: {
+//                 beginAtZero: true
+//             }
+//         }
+//     }
+// });
 
-productsELem.addEventListener('click', clickHanlder);
+productsELem.addEventListener('click', clickHandler);
 
 createProduct('bag', './img/bag.jpg');
 createProduct('banana', './img/banana.jpg');
@@ -97,11 +170,9 @@ createProduct('pen', './img/pen.jpg');
 createProduct('pet-sweep', './img/pet-sweep.jpg');
 createProduct('scissors', './img/scissors.jpg');
 createProduct('shark', './img/shark.jpg');
-createProduct('sweep', './img/sweep.jpg');
+createProduct('sweep', './img/sweep.png');
 createProduct('tauntaun', './img/tauntaun.jpg');
 createProduct('unicorn', './img/unicorn.jpg');
 createProduct('water-can', './img/water-can.jpg');
 createProduct('wine-glass', './img/wine-glass.jpg');
-Product.productArray.push(new Product('banana','./img/banana.jpg'));
-//getRandomProducts();
-console.log(Product.productArray);
+getRandomProducts();
