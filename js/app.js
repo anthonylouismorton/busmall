@@ -48,22 +48,22 @@ function getRandomProducts(){
   // }
   // uniqueProducts.push[thirdProduct];
 
-  // let firstPosition = Math.floor(Math.random()*Product.productArray.length);
-  // let secondPosition;
-  // let thirdPosition;
-  // firstProduct = Product.productArray[firstPosition];
+  let firstPosition = Math.floor(Math.random()*Product.productArray.length);
+  let secondPosition;
+  let thirdPosition;
+  firstProduct = Product.productArray[firstPosition];
 
-  // while(secondPosition === undefined || secondPosition === firstPosition)
-  // {
-  //   secondPosition = Math.floor(Math.random()*Product.productArray.length);
-  // }
-  // secondProduct =  Product.productArray[secondPosition];
+  while(secondPosition === undefined || secondPosition === firstPosition)
+  {
+    secondPosition = Math.floor(Math.random()*Product.productArray.length);
+  }
+  secondProduct =  Product.productArray[secondPosition];
 
-  // while(thirdPosition === undefined || thirdPosition === firstPosition || thirdPosition === secondPosition)
-  // {
-  //   thirdPosition = Math.floor(Math.random()*Product.productArray.length);
-  // }
-  // thirdProduct =  Product.productArray[thirdPosition];
+  while(thirdPosition === undefined || thirdPosition === firstPosition || thirdPosition === secondPosition)
+  {
+    thirdPosition = Math.floor(Math.random()*Product.productArray.length);
+  }
+  thirdProduct =  Product.productArray[thirdPosition];
 
   renderProducts();
 }
