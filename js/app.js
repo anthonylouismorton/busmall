@@ -29,14 +29,15 @@ Product.prototype.renderProduct = function(img,h2){
 }
 
 function getRandomProducts(){
-  // const uniqueProducts = [firstProduct, secondProduct, thirdProduct];
-  // while(uniqueProducts.includes(uniqueProducts[0])){
+  //const uniqueProducts = [firstProduct, secondProduct, thirdProduct];
+
+  // while(uniqueProducts.includes(firstProduct)){
   //   let firstPosition = Math.floor(Math.random()*Product.productArray.length);
   //   firstProduct = Product.productArray[firstPosition];
   // }
   // uniqueProducts.push[firstProduct];
 
-  // while(uniqueProducts.includes(secondProduct)){
+  // while(uniqueProducts.includes(secondProduct) ){
   //   let secondPosition = Math.floor(Math.random()*Product.productArray.length);
   //   secondProduct = Product.productArray[secondPosition];
   // }
@@ -46,7 +47,25 @@ function getRandomProducts(){
   //   let thirdPosition = Math.floor(Math.random()*Product.productArray.length);
   //   thirdProduct = Product.productArray[thirdPosition];
   // }
-  // uniqueProducts.push[thirdProduct];
+  // for(var i = 0; i < 3; i++){
+  // while(uniqueProducts.includes(firstProduct) || firstProduct === null || firstProduct === secondProduct || firstProduct === thirdProduct)
+  // {
+  //   firstProduct = Math.floor(Math.random()*Product.productArray.length);
+  // }
+
+  // while(uniqueProducts.includes(secondProduct) || secondProduct === null || secondProduct === firstProduct || secondProduct === thirdProduct)
+  // {
+  //   secondProduct = Math.floor(Math.random()*Product.productArray.length);
+  // }
+
+  // while(uniqueProducts.includes(thirdProduct) || thirdProduct === null || thirdProduct === firstProduct || thirdProduct === secondProduct)
+  // {
+  //  thirdProduct = Math.floor(Math.random()*Product.productArray.length);
+  // }
+  // }
+  // let firstPosition =  Product.productArray[firstProduct];
+  // let secondPosition =  Product.productArray[secondProduct];
+  // let thirdPosition =  Product.productArray[thirdProduct];
 
   let firstPosition = Math.floor(Math.random()*Product.productArray.length);
   let secondPosition;
@@ -67,6 +86,7 @@ function getRandomProducts(){
 
   renderProducts();
 }
+
 function renderProducts(){
   firstProduct.renderProduct(firstProductElem, firstProductLabelElem);
   secondProduct.renderProduct(secondProductElem, secondProductLabelElem);
@@ -93,22 +113,58 @@ function clickHandler(event){
     }
     if(picks > 24){
       productsELem.removeEventListener('click', clickHandler);
+      renderChart();
       renderVotes();
-      createChart();
+      
     }
     getRandomProducts();
   }
 }
-// function createChart(){
-//   const productData = [];
-//   const dataLabels = [];
+function renderChart(){
+  const productsData = [];
+  const dataLabels = [];
 
-//   for(let product of Product.productArray){
-//     productData.push(product.votes)
-//     dataLabels.push(product.name)
-//   }
-// }
+  for(let product of Product.productArray){
+    productsData.push(product.votes)
+    dataLabels.push(product.name)
+  }
 
+var ctx = document.getElementById('productGraph').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: dataLabels,
+        datasets: [{
+            label: '# of Votes',
+            data: productsData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+}
 function renderVotes(){
   const ulElem = document.getElementById('productTotals');
   ulElem.innerHTML = '';
@@ -118,41 +174,6 @@ function renderVotes(){
     ulElem.appendChild(liElem);
   }
 }
-// var ctx = document.getElementById('productGraph').getContext('2d');
-// var myChart = new Chart(ctx, {
-//     type: 'bar',
-//     data: {
-//         labels: ['red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-//         datasets: [{
-//             label: '# of Votes',
-//             data: [12, 19, 3, 5, 2, 3],
-//             backgroundColor: [
-//                 'rgba(255, 99, 132, 0.2)',
-//                 'rgba(54, 162, 235, 0.2)',
-//                 'rgba(255, 206, 86, 0.2)',
-//                 'rgba(75, 192, 192, 0.2)',
-//                 'rgba(153, 102, 255, 0.2)',
-//                 'rgba(255, 159, 64, 0.2)'
-//             ],
-//             borderColor: [
-//                 'rgba(255, 99, 132, 1)',
-//                 'rgba(54, 162, 235, 1)',
-//                 'rgba(255, 206, 86, 1)',
-//                 'rgba(75, 192, 192, 1)',
-//                 'rgba(153, 102, 255, 1)',
-//                 'rgba(255, 159, 64, 1)'
-//             ],
-//             borderWidth: 1
-//         }]
-//     },
-//     options: {
-//         scales: {
-//             y: {
-//                 beginAtZero: true
-//             }
-//         }
-//     }
-// });
 
 productsELem.addEventListener('click', clickHandler);
 
