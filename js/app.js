@@ -204,17 +204,17 @@ var myChart = new Chart(ctx, {
         datasets: [{
             label: '# of Votes',
             data: productsData,
-            backgroundColor: 'blue',
-            borderColor: 'blue',
+            backgroundColor: 'aqua',
+            borderColor: 'aqua',
             borderWidth: 1,
           }, {
             label: '# appearances',
             data: productAppearances,
-            backgroundColor: 'red',
-            borderColor: 'red',
+            backgroundColor: 'purple',
+            borderColor: 'purple',
             borderWidth: 1,
             
-        }]
+        }],
     },
     options: {
         scales: {
@@ -230,7 +230,7 @@ function renderVotes(){
   ulElem.innerHTML = '';
   for(let product of Product.productArray){
     const liElem = document.createElement('li');
-    liElem.textContent = `Product: ${product.name}, Votes: ${product.votes}, Appearances: ${product.appearances}`;
+    liElem.textContent = ` - Votes: ${product.votes} - Appearances: ${product.appearances}`;
     ulElem.appendChild(liElem);
   }
 }

@@ -1,11 +1,96 @@
+body{
+  width: 960px;
+  margin: 0 auto;
+  background-color: #758AA8;
+}
 img{
-  height: 100px;
-  width: 100px;
+  
+  height: 250px;
+  width: 250px;
+  display: block;
 }
 .hidden{
 display: none;
 }
+#products{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 70px;
+}
+#products h2{
+  font-weight: bold;
+  text-align: center;
+  background-color: #9376AC;
+  color: #371356;
+  padding-top: 20px;
+  height: 30px;
+  font-size: 20px;
+
+
+}
+#product1, #product2, #product3{
+  border: solid #210439 5px;
+}
+header{
+  height: 100px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #051A38 ;
+}
+header p{
+  padding-top: 35px;
+  color: #758AA8
+}
+button{
+margin-top: -95px;
+margin-left: -155px;
+position: absolute;
+}
+#results{
+margin-top: 95px;
+width: 300px;
+float: left;
+border: solid 5px #553500;
+text-align: center;
+}
+#results h2{
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 10px;
+  height: 30px;
+  text-align: center;
+  background-color: #AA7F39;
+  color: #553500;
+  /* border: solid 5px #553500; */
+}
+ul{
+  background-color: #AA7F39;
+  height: 430px;
+}
+#productNames{
+  float: left;
+  text-align: right;
+  padding-left: 12px;
+}
+#productTotals{
+  text-align: left;
+}
+li{
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: bolder;
+  color: #553500;
+}
 #chart{
-  height: 500px;
-  width: 500px;
+  height: 625px;
+  width: 625px;
+  float: right;
+  margin-top: 70px;
+  padding-top: 125px
+}
+a{
+  text-decoration: none;
+  color: black;
 }
