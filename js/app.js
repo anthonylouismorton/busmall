@@ -58,21 +58,23 @@ function getRandomProducts(){
   let randomIndex = getRandom();
   let firstPosition = randomIndex;
   firstProduct = copyArray[firstPosition];
-  
   copyArray.splice(firstPosition, 1);
   checkIfEmpty();
   
   randomIndex = getRandom();
+  Product.productArray.appearances++
   let secondPosition = randomIndex;
   secondProduct = copyArray[secondPosition];
   copyArray.splice(secondPosition, 1);
   checkIfEmpty();
 
   randomIndex = getRandom();
+  Product.productArray.appearances++
   let thirdPosition = randomIndex;
   thirdProduct = copyArray[thirdPosition];
   copyArray.splice(thirdPosition, 1);
   checkIfEmpty();
+  
   
   // const uniqueProducts = [firstProduct, secondProduct, thirdProduct];
 
@@ -94,7 +96,7 @@ function getRandomProducts(){
   //   thirdProduct = Product.productArray[thirdPosition];
   // }
   // uniqueProducts.push(thirdProduct)
-
+  
   renderProducts();
 }
 
@@ -111,19 +113,15 @@ function createProduct(aName, image){
 }
 function getDatafromStorage(){
   const stringVotes = localStorage.getItem('votes');
-  console.log(stringVotes)
   if(stringVotes !== null){
     
     const parseVotes = JSON.parse(stringVotes);
     for(let product of parseVotes){
-     product.appearances = parseInt(product.appearances);
-     product.votes = parseInt(product.votes);
-     console.log(product.appearances)
-     console.log(product.votes)
-      const myVotes = new Product(product.name, product.image, product.appearances, product.votes)
+     product.storageAppearances = parseInt(product.appearances);
+     product.storageVotes = parseInt(product.votes);
+      const myVotes = new Product(product.name, product.image, product.storageVotes, product.storageAppearances)
       Product.productArray.push(myVotes)
     }
-    //console.log(Product.productArray)
   }
   else{
     createProduct('bag', './img/bag.jpg');
@@ -150,7 +148,7 @@ function getDatafromStorage(){
     getRandomProducts();
   
 }
-
+console.log(Product.productArray)
 function storeVotes(){
   const stringVotes = JSON.stringify(Product.productArray)
   localStorage.setItem('votes', stringVotes)
@@ -163,34 +161,39 @@ function viewResultsHandler(event){
 }
 function clickHandler(event){
   if(event.target === firstProductElem ||event.target === secondProductElem ||event.target === thirdProductElem){
-  picks++;
-    if(event.target === firstProductElem){
-      firstProduct.votes++;
-    }
-    else if(event.target === secondProductElem){
-      secondProduct.votes++;
-    }
-    else{
-      thirdProduct.votes++;
-    }
-    if(picks > 24){
-      productsElem.removeEventListener('click', clickHandler);
-      let viewResultsElem = document.getElementById('viewResults');
-      viewResultsElem.classList.toggle('hidden');
-      viewResultsElem.addEventListener('click', viewResultsHandler);
-      
-    }
-    getRandomProducts();
-    storeVotes();
+      if(event.target === firstProductElem){
+        firstProduct.votes++;
+      }
+      else if(event.target === secondProductElem){
+        secondProduct.votes++;
+      }
+      else if(event.target === thirdProductElem){
+        thirdProduct.votes++;
+      }
+      picks++;
+      if(picks < 25)
+      {
+        getRandomProducts();
+      }
+      else{
+        productsElem.removeEventListener('click', clickHandler);
+        let viewResultsElem = document.getElementById('viewResults');
+        viewResultsElem.classList.toggle('hidden');
+        viewResultsElem.addEventListener('click', viewResultsHandler);
+      }
+      console.log(picks)
   }
+  storeVotes();
 }
 function renderChart(){
   const productsData = [];
   const dataLabels = [];
+  const productAppearances = [];
 
   for(let product of Product.productArray){
     productsData.push(product.votes)
     dataLabels.push(product.name)
+    productAppearances.push(product.appearances)
   }
 
 var ctx = document.getElementById('productGraph').getContext('2d');
@@ -201,23 +204,16 @@ var myChart = new Chart(ctx, {
         datasets: [{
             label: '# of Votes',
             data: productsData,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
+            backgroundColor: 'blue',
+            borderColor: 'blue',
+            borderWidth: 1,
+          }, {
+            label: '# appearances',
+            data: productAppearances,
+            backgroundColor: 'red',
+            borderColor: 'red',
+            borderWidth: 1,
+            
         }]
     },
     options: {
@@ -226,7 +222,7 @@ var myChart = new Chart(ctx, {
                 beginAtZero: true
             }
         }
-    }
+    },
 });
 }
 function renderVotes(){
